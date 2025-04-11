@@ -35,10 +35,9 @@ class FontsDataset(Dataset):
         char = self.characters_set[char_id]
         pos_char = self.characters_set[random.randint(font_id+1, self.char_random_step+font_id)%self.sample_num]
         neg_font_id = random.randint(1, self.fonts_random_step)
-        neg_char = self.characters_set[random.randint(0,self.char_random_step)]
         anchor = self.draw_char(self.fonts_path[font_id], char)
         pos = self.draw_char(self.fonts_path[font_id], pos_char)
-        neg = self.draw_char(self.fonts_path[neg_font_id], neg_char)
+        neg = self.draw_char(self.fonts_path[neg_font_id], char)
         return anchor, pos, neg
 
 def find_fonts(directory, extensions=('.ttf', '.otf', '.ttc')):
@@ -65,3 +64,12 @@ def vaild_font(font_path, charset):
         print(e)
         print(font_path)
         return False
+
+def draw_char(font_path, char, img_size):
+    img = Image.new("L", img_size, color="white")
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype(font_path, img_size[1] - 10)
+    # center
+    _, _, w, h = font.getbbox(char)
+    draw.text(((img_size[0] - w) // 2, (img_size[1] - h) // 2), char, font=font, fill="black")
+    return img
