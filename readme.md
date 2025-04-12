@@ -17,10 +17,10 @@
 
 ## 📦 安装依赖
 
-确保已安装 `Python 3.8+`，然后运行：
+确保已安装 `Python 3.10`，然后运行：
 
 ```bash
-pip install gradio safetensors torch numpy
+pip install -r requirements.txt
 ```
 
 ---
